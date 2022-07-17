@@ -1,17 +1,21 @@
-## Air
+# Maily Backend
+
+---
+
+### This is the backend project for Maily. Currently, the client software is a macOS application and an Apple Mail extension powered by Swift and MailKit.
+
+### Go Air
 
 ```azure
 $ alias air='/Users/{user}/go/bin/air'
 $ air
 ```
 
----
-
 ### TODO
 
-#### Links clicked
-
----
+```azure
+Links clicked
+```
 
 ### Setup
 
@@ -26,10 +30,9 @@ go install github.com/swaggo/swag/cmd/swag@latest
 http://localhost:8090/swagger/index.html
 ```
 
----
-
 ### IP Websites
 
-#### https://ip-api.com/ Free with limited information
-
-#### https://ipdata.co/ 1,500 request daliy with more information
+```azure
+https://ip-api.com/ Free with limited information
+https://ipdata.co/ 1,500 request daliy with more information
+```
