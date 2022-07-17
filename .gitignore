@@ -85,3 +85,10 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Tmp folder
+tmp
+tmp/*
+
+# Keys
+src/secrets/secrets.go
