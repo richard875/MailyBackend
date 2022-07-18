@@ -4,16 +4,21 @@ import (
 	"net/http"
 
 	"maily/go-backend/src/controllers"
+	"maily/go-backend/src/middlewares"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
 )
 
 func Init(router *gin.Engine) {
-	router.GET("/beep", controllers.Beep)
-	router.GET("/iptest", controllers.IpAddress)
+	// Suffix api
+	public := router.Group("/api")
 
-	router.GET("/test", func(c *gin.Context) {
+	// GET
+	public.GET("/beep", controllers.Beep)
+	public.GET("/iptest", controllers.IpAddress)
+
+	public.GET("/test", func(c *gin.Context) {
 
 		println(c.ClientIP())
 
@@ -24,4 +29,15 @@ func Init(router *gin.Engine) {
 
 		c.IndentedJSON(http.StatusOK, c.Request.Header)
 	})
+
+	// POST
+	public.POST("/register", controllers.Register)
+	public.POST("/login", controllers.Login)
+
+	// Suffix admin
+	protected := router.Group("/api/admin")
+	protected.Use(middlewares.JwtAuthMiddleware())
+
+	// GET
+	protected.GET("/user", controllers.CurrentUser)
 }
