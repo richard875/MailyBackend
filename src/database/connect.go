@@ -2,30 +2,37 @@ package database
 
 import (
 	"fmt"
-
+	"github.com/joho/godotenv"
 	"maily/go-backend/src/models"
-	"maily/go-backend/src/secrets"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-func Connect() gin.HandlerFunc {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", secrets.DbUsername, secrets.DbPassword, secrets.DbHost, secrets.DbPort, secrets.DbDatabase)
-	db, connectError := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+var DB *gorm.DB
 
-	if connectError != nil {
+func Connect() gin.HandlerFunc {
+	err := godotenv.Load(".env")
+	if err != nil {
+		panic("Error loading .env file")
+	}
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_DATABASE"))
+
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
 		panic("failed to connect database")
 	}
 
-	migrateError := db.AutoMigrate(&models.Record{})
-	if migrateError != nil {
+	err = DB.AutoMigrate(&models.Record{}, &models.User{})
+	if err != nil {
 		return nil
 	}
 
 	return func(c *gin.Context) {
-		c.Set("DB", db)
+		c.Set("DB", DB)
 		c.Next()
 	}
 }
