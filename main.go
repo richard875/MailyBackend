@@ -19,7 +19,6 @@ var port string = "8090"
 
 // @host      localhost:8080
 // @BasePath  /api/v1
-
 func main() {
 	router := gin.Default()
 	router.Use(database.Connect())
