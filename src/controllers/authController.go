@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"maily/go-backend/src/dtos"
 	"maily/go-backend/src/utils/token"
 	"net/http"
 
@@ -28,7 +29,7 @@ func CurrentUser(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var input models.Login
+	var input dtos.Login
 	_ = c.ShouldBindJSON(&input)
 
 	user := models.User{}
@@ -45,7 +46,7 @@ func Login(c *gin.Context) {
 }
 
 func Register(c *gin.Context) {
-	var input models.Register
+	var input dtos.Register
 	_ = c.ShouldBindJSON(&input)
 
 	// Create User
