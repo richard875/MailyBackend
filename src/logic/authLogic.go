@@ -8,6 +8,7 @@ import (
 	"html"
 	"maily/go-backend/src/models"
 	"maily/go-backend/src/utils/token"
+	"net/mail"
 	"strings"
 )
 
@@ -18,7 +19,7 @@ func GetUserByID(c *gin.Context, uid uint) (models.User, error) {
 	if err := db.First(&user, uid).Error; err != nil {
 		return user, fmt.Errorf("User not found!")
 	}
-	user.Password = ""
+	user.Password = "hidden"
 
 	return user, nil
 }
