@@ -7,7 +7,9 @@ import (
 
 func HandleError(c *gin.Context, err error) {
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		c.Error(err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError,
+			gin.H{"status": false, "message": err.Error()})
+		return // signal that there was an error and the caller should return
 	}
 }
