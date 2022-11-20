@@ -2,6 +2,9 @@ package controllers
 
 import (
 	"github.com/joho/godotenv"
+	"github.com/teris-io/shortid"
+	"maily/go-backend/src/utils"
+	"maily/go-backend/src/utils/token"
 	"net/http"
 	"os"
 
@@ -46,4 +49,24 @@ func IpAddress(c *gin.Context) {
 	data, _ := ipd.Lookup("118.102.80.22")
 
 	c.IndentedJSON(http.StatusOK, data)
+}
+
+func Generate(c *gin.Context) {
+	userId, tokenError := token.ExtractUserID(c)
+	if tokenError != nil {
+		utils.HandleError(c, tokenError)
+		return
+	}
+
+	db := c.MustGet("DB").(*gorm.DB)
+	publicTrackingNumber, _ := shortid.Generate()
+	privateTrackingNumber, _ := shortid.Generate()
+
+	result := db.Create(&models.Tracker{ID: publicTrackingNumber, PrivateTrackingNumber: privateTrackingNumber, UserID: userId})
+	if result.Error != nil {
+		utils.HandleError(c, result.Error)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"beaconUrl": publicTrackingNumber})
 }

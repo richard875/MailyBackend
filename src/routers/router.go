@@ -33,6 +33,7 @@ func Init(router *gin.Engine) {
 	// POST
 	public.POST("/register", controllers.Register)
 	public.POST("/login", controllers.Login)
+	public.POST("/generate", controllers.Generate)
 
 	// Suffix admin
 	protected := router.Group("/api/admin")
