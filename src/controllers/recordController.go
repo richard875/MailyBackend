@@ -15,7 +15,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// Example 1 godoc
+// Beep Example 1 godoc
 // @Summary  1234
 // @Schemes
 // @Description  do ping
@@ -31,7 +31,7 @@ func Beep(c *gin.Context) {
 	c.File("static/images/1.jpg")
 }
 
-// abc godoc
+// IpAddress abc godoc
 // @Summary  abcd
 // @Schemes
 // @Description  do ping
