@@ -13,7 +13,7 @@ import (
 )
 
 func CurrentUser(c *gin.Context) {
-	userId, tokenError := token.ExtractTokenID(c)
+	userId, tokenError := token.ExtractUserID(c)
 	if tokenError != nil {
 		utils.HandleError(c, tokenError)
 		return
