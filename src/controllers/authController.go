@@ -48,13 +48,20 @@ func Register(c *gin.Context) {
 	_ = c.ShouldBindJSON(&input)
 
 	// Create User
+	parsedEmail, emailError := logic.TrimTextAndVerifyEmail(c, input.Email)
+	if emailError != nil {
+		utils.HandleError(c, emailError)
+		return
+	}
+
 	user := models.User{}
-	user.Email = logic.TrimUsername(input.Email)
+	user.Email = parsedEmail
 	user.Password = logic.HashPassword(input.Password)
 
-	_, err := logic.SaveUser(c, user)
-	if err != nil {
-		utils.HandleError(c, err)
+	_, saveError := logic.SaveUser(c, user)
+	if saveError != nil {
+		utils.HandleError(c, saveError)
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "registration success"})
