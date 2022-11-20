@@ -7,7 +7,7 @@ import (
 
 type User struct {
 	gorm.Model
-	ID            uuid.UUID `gorm:"type:char(36);primary_key"`
+	ID            uuid.UUID `gorm:"type:char(36);primary_key" json:"id"`
 	Email         string    `gorm:"size:255;not null;unique" json:"email"`
 	Password      string    `gorm:"size:255;not null;" json:"password"`
 	EmailVerified bool      `gorm:"default:true" json:"emailVerified"`
