@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"maily/go-backend/src/utils/token"
 	"net/http"
 
@@ -55,6 +56,7 @@ func Register(c *gin.Context) {
 	}
 
 	user := models.User{}
+	user.ID = uuid.New()
 	user.Email = parsedEmail
 	user.Password = logic.HashPassword(input.Password)
 

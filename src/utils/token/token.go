@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 )
 
-func GenerateToken(userId uint) (string, error) {
+func GenerateToken(userId uuid.UUID) (string, error) {
 	tokenLifespan, err := strconv.Atoi(os.Getenv("TOKEN_HOUR_LIFESPAN"))
 	if err != nil {
 		return "", err
