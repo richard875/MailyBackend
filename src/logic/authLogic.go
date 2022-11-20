@@ -31,7 +31,7 @@ func LoginCheck(c *gin.Context, inputUser models.User) (string, error) {
 	db := c.MustGet("DB").(*gorm.DB)
 
 	storedUser := models.User{}
-	db.Model(models.User{}).Where("username = ?", inputUser.Username).Take(&storedUser)
+	db.Model(models.User{}).Where("email = ?", inputUser.Email).Take(&storedUser)
 
 	err := VerifyPassword(inputUser.Password, storedUser.Password)
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {

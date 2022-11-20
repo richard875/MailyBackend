@@ -29,12 +29,12 @@ func Login(c *gin.Context) {
 	_ = c.ShouldBindJSON(&input)
 
 	user := models.User{}
-	user.Username = input.Username
+	user.Email = input.Email
 	user.Password = input.Password
 
 	loginCheck, err := logic.LoginCheck(c, user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "username or password is incorrect."})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "email or password is incorrect."})
 		return
 	}
 
@@ -47,7 +47,7 @@ func Register(c *gin.Context) {
 
 	// Create User
 	user := models.User{}
-	user.Username = logic.TrimUsername(input.Username)
+	user.Email = logic.TrimUsername(input.Email)
 	user.Password = logic.HashPassword(input.Password)
 
 	_, err := logic.SaveUser(c, user)
