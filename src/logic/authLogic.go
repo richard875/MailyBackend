@@ -48,9 +48,9 @@ func LoginCheck(c *gin.Context, inputUser models.User) (string, error) {
 
 func SaveUser(c *gin.Context, user models.User) (models.User, error) {
 	db := c.MustGet("DB").(*gorm.DB)
-	db.Create(&user)
+	result := db.Create(&user)
 
-	return user, nil
+	return user, result.Error
 }
 
 func HashPassword(password string) string {
