@@ -59,7 +59,10 @@ func HashPassword(password string) string {
 	return string(hashedPassword)
 }
 
-func TrimUsername(username string) string {
+func TrimTextAndVerifyEmail(c *gin.Context, username string) (string, error) {
 	// Remove spaces in username
-	return html.EscapeString(strings.TrimSpace(username))
+	email := strings.TrimSpace(username)
+	_, err := mail.ParseAddress(email)
+
+	return html.EscapeString(email), err
 }
