@@ -14,11 +14,13 @@ func CurrentUser(c *gin.Context) {
 	userId, tokenError := token.ExtractTokenID(c)
 	if tokenError != nil {
 		utils.HandleError(c, tokenError)
+		return
 	}
 
 	user, userError := logic.GetUserByID(c, userId)
 	if userError != nil {
 		utils.HandleError(c, userError)
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "success", "loginCheck": user})
