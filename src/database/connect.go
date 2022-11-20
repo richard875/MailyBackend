@@ -26,7 +26,12 @@ func Connect() gin.HandlerFunc {
 		panic("failed to connect database")
 	}
 
-	err = DB.AutoMigrate(&models.Record{}, &models.User{})
+	err = DB.AutoMigrate(
+		&models.Record{},
+		&models.User{},
+		&models.Tracker{},
+	)
+
 	if err != nil {
 		return nil
 	}
