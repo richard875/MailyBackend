@@ -36,7 +36,7 @@ func Login(c *gin.Context) {
 
 	loginCheck, err := logic.LoginCheck(c, user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "email or password is incorrect."})
+		utils.HandleError(c, err)
 		return
 	}
 
