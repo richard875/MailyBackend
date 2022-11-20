@@ -12,12 +12,12 @@ import (
 	"strings"
 )
 
-func GetUserByID(c *gin.Context, uid uint) (models.User, error) {
+func GetUserByID(c *gin.Context, uid string) (models.User, error) {
 	db := c.MustGet("DB").(*gorm.DB)
 
 	var user models.User
-	if err := db.First(&user, uid).Error; err != nil {
-		return user, fmt.Errorf("User not found!")
+	if err := db.First(&user, "id = ?", uid).Error; err != nil {
+		return user, fmt.Errorf("user not found")
 	}
 	user.Password = "hidden"
 
