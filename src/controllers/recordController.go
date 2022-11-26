@@ -34,19 +34,14 @@ func Beep(c *gin.Context) {
 	c.File("static/images/1.jpg")
 }
 
-// IpAddress abc godoc
-// @Summary  abcd
-// @Schemes
-// @Description  do ping
-// @Tags         example
-// @Accept       json
-// @Produce      json
-// @Success      200  {string}  Helloworld
-// @Router       /example/abcde [get]
 func IpAddress(c *gin.Context) {
 	_ = godotenv.Load(".env")
 	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
 	data, _ := ipd.Lookup("118.102.80.22")
+	//data, _ := ipd.Lookup(c.ClientIP())
+
+	fmt.Println(c.ClientIP())
+	fmt.Println(c.Request.Header.Get("User-Agent"))
 
 	c.IndentedJSON(http.StatusOK, data)
 }
