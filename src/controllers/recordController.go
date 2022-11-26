@@ -1,21 +1,22 @@
 package controllers
 
 import (
+	"encoding/json"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+	ipdata "github.com/ipdata/go"
 	"github.com/joho/godotenv"
 	"github.com/teris-io/shortid"
+	"golang.org/x/exp/slices"
+	"gorm.io/gorm"
+	"io"
 	"maily/go-backend/src/utils"
 	"maily/go-backend/src/utils/token"
 	"net/http"
 	"os"
 
-	"github.com/gin-gonic/gin"
-	ipdata "github.com/ipdata/go"
-	"gorm.io/gorm"
-
 	"maily/go-backend/src/models"
-
-	"github.com/aidarkhanov/nanoid"
-	"github.com/google/uuid"
 )
 
 // Beep Example 1 godoc
