@@ -51,6 +51,28 @@ func IpAddress(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, data)
 }
 
+func BrowserTest(c *gin.Context) {
+	jsonFile, err := os.Open("static/data/user_agents_email_client.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var userAgents []string // List of browser user agents
+	byteValue, _ := io.ReadAll(jsonFile)
+	json.Unmarshal(byteValue, &userAgents)
+	jsonFile.Close()
+
+	idx := slices.IndexFunc(userAgents, func(c string) bool {
+		return c == "1"
+	})
+	fmt.Println(idx)
+
+	//for _, s := range userAgents {
+	//	fmt.Println(s)
+	//}
+	c.IndentedJSON(http.StatusOK, userAgents)
+}
+
 func Generate(c *gin.Context) {
 	userId, tokenError := token.ExtractUserID(c)
 	if tokenError != nil {
