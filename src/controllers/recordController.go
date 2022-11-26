@@ -85,5 +85,5 @@ func Generate(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"beaconUrl": publicTrackingNumber})
+	c.JSON(http.StatusOK, gin.H{"beaconUrl": fmt.Sprintf("http://%s/api/beep/%s", c.Request.Host, publicTrackingNumber)})
 }
