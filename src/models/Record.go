@@ -1,24 +1,24 @@
 package models
 
 import (
+	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"time"
 )
 
 type Record struct {
 	gorm.Model
-	UserID          string `gorm:"primaryKey"`
-	LogNumber       string
-	LogTimes        int `gorm:"default:0"`
-	IpAddress       string
-	IpCity          string
-	IsTor           bool
-	IsProxy         bool
-	IsAnonymous     bool
-	IsKnownAttacker bool
-	IsKnownAbuser   bool
-	IsThreat        bool
-	IsBogon         bool
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
+	ID                       uuid.UUID `gorm:"type:char(36);not null;unique;primary_key" json:"id"`
+	PublicTrackingNumber     string    `gorm:"type:char(36);not null;foreignKey:TrackerRefer" json:"publicTrackingNumber"`
+	IpAddress                string    `gorm:"size:255" json:"ipAddress"`
+	IpCity                   string    `gorm:"size:255" json:"ipCity"`
+	IpCountry                string    `gorm:"size:255" json:"ipCountry"`
+	IsEU                     bool      `gorm:"default:false" json:"isEu"`
+	IsTor                    bool      `gorm:"default:false" json:"isTor"`
+	IsProxy                  bool      `gorm:"default:false" json:"isProxy"`
+	IsAnonymous              bool      `gorm:"default:false" json:"isAnonymous"`
+	IsKnownAttacker          bool      `gorm:"default:false" json:"isKnownAttacker"`
+	IsKnownAbuser            bool      `gorm:"default:false" json:"isKnownAbuser"`
+	IsThreat                 bool      `gorm:"default:false" json:"isThreat"`
+	IsBogon                  bool      `gorm:"default:false" json:"isBogon"`
+	ConfidentWithEmailClient bool      `gorm:"default:false" json:"confidentWithEmailClient"`
 }
