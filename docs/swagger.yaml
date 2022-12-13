@@ -1,5 +1,5 @@
 basePath: /api/v1
-host: localhost:8080
+host: localhost:8090
 info:
   contact: {}
   description: Maily backend server
@@ -19,21 +19,6 @@ paths:
           schema:
             type: string
       summary: "1234"
-      tags:
-      - example
-  /example/abcde:
-    get:
-      consumes:
-      - application/json
-      description: do ping
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: abcd
       tags:
       - example
 swagger: "2.0"

@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "localhost:8090",
     "basePath": "/api/v1",
     "paths": {
         "/example/12345": {
@@ -22,29 +22,6 @@
                     "example"
                 ],
                 "summary": "1234",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/example/abcde": {
-            "get": {
-                "description": "do ping",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "example"
-                ],
-                "summary": "abcd",
                 "responses": {
                     "200": {
                         "description": "OK",
