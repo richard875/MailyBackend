@@ -12,14 +12,14 @@ func Init(router *gin.Engine) {
 	public := router.Group("/api")
 
 	// GET
-	public.GET("/beep/:trackingId", controllers.Beep)
-	public.GET("/ip-test", controllers.IpAddress)
-	public.GET("/browser-test", controllers.BrowserTest)
+	public.GET("/beep/:trackingId", controllers.Beep)    // Logging
+	public.GET("/ip-test", controllers.IpAddress)        // Dev
+	public.GET("/browser-test", controllers.BrowserTest) // Dev
 
 	// POST
-	public.POST("/register", controllers.Register)
-	public.POST("/login", controllers.Login)
-	public.POST("/generate", controllers.Generate)
+	public.POST("/register", controllers.Register) // Auth
+	public.POST("/login", controllers.Login)       // Auth
+	public.POST("/generate", controllers.Generate) // Generate tracking number
 
 	// Suffix admin
 	protected := router.Group("/api/admin")
