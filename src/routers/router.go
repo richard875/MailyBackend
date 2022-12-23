@@ -13,8 +13,8 @@ func Init(router *gin.Engine) {
 
 	// GET
 	public.GET("/beep/:trackingId", controllers.Beep)    // Logging
-	public.GET("/ip-test", controllers.IpAddress)        // Dev
-	public.GET("/browser-test", controllers.BrowserTest) // Dev
+	public.GET("/ip-test", controllers.IpAddress)        // Dev Test
+	public.GET("/browser-test", controllers.BrowserTest) // Dev Test
 
 	// POST
 	public.POST("/register", controllers.Register) // Auth
