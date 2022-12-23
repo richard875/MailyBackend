@@ -4,19 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	ipdata "github.com/ipdata/go"
 	"github.com/joho/godotenv"
-	"github.com/teris-io/shortid"
 	"golang.org/x/exp/slices"
-	"gorm.io/gorm"
 	"io"
+	"maily/go-backend/src/logic"
 	"maily/go-backend/src/utils"
 	"maily/go-backend/src/utils/token"
 	"net/http"
 	"os"
-
-	"maily/go-backend/src/models"
 )
 
 // Beep Example 1 godoc
@@ -69,6 +65,7 @@ func AssignTrackingNumber(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
 
+// IpAddress Test code ------------------------------------------------------------
 func IpAddress(c *gin.Context) {
 	_ = godotenv.Load(".env")
 	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
