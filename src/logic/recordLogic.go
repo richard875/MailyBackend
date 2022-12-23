@@ -74,3 +74,12 @@ func GeneratePublicTrackingNumber() string {
 	trackingNumber, _ := shortid.Generate()
 	return trackingNumber
 }
+
+func AssignTrackingNumber(c *gin.Context, userId string) error {
+	db := c.MustGet("DB").(*gorm.DB)
+	var trackingNumber dtos.TrackingNumber
+	_ = c.ShouldBindJSON(&trackingNumber)
+
+	result := db.Create(&models.Tracker{ID: trackingNumber.TrackingNumber, UserID: userId})
+	return result.Error
+}

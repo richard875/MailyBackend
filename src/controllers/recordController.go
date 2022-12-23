@@ -53,6 +53,20 @@ func Generate(c *gin.Context) {
 	})
 }
 
+func AssignTrackingNumber(c *gin.Context) {
+	userId, tokenError := token.ExtractUserID(c)
+	if tokenError != nil {
+		utils.HandleError(c, tokenError)
+		return
+	}
+
+	assignError := logic.AssignTrackingNumber(c, userId)
+	if assignError != nil {
+		utils.HandleError(c, assignError)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
 
 func IpAddress(c *gin.Context) {
