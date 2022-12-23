@@ -2,7 +2,7 @@
 
 ---
 
-### This is the backend project for Maily. Currently, the client software is a macOS application and an Apple Mail extension powered by Swift and MailKit.
+### This is the backend project for Maily. Currently, the client software is a macOS application and an Apple Mail extension powered by SwiftUI and MailKit.
 
 ### Go Air
 
