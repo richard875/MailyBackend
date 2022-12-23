@@ -69,3 +69,8 @@ func createTracker(ipData ipdata.IP, trackingNumber string, ipAddress string, co
 
 	return tracker
 }
+
+func GeneratePublicTrackingNumber() string {
+	trackingNumber, _ := shortid.Generate()
+	return trackingNumber
+}

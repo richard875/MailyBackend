@@ -38,6 +38,20 @@ func Beep(c *gin.Context) {
 	c.File("static/images/beep.gif")
 }
 
+func Generate(c *gin.Context) {
+	_, tokenError := token.ExtractUserID(c)
+	if tokenError != nil {
+		utils.HandleError(c, tokenError)
+		return
+	}
+
+	publicTrackingNumber := logic.GeneratePublicTrackingNumber()
+	c.JSON(http.StatusOK, gin.H{
+		"token": publicTrackingNumber,
+		"url":   fmt.Sprintf("http://%s/api/beep/", c.Request.Host),
+		"usage": "url + token",
+	})
+}
 
 }
 
@@ -73,23 +87,4 @@ func BrowserTest(c *gin.Context) {
 	//	fmt.Println(s)
 	//}
 	c.IndentedJSON(http.StatusOK, userAgents)
-}
-
-func Generate(c *gin.Context) {
-	userId, tokenError := token.ExtractUserID(c)
-	if tokenError != nil {
-		utils.HandleError(c, tokenError)
-		return
-	}
-
-	db := c.MustGet("DB").(*gorm.DB)
-	publicTrackingNumber, _ := shortid.Generate()
-
-	result := db.Create(&models.Tracker{ID: publicTrackingNumber, UserID: userId})
-	if result.Error != nil {
-		utils.HandleError(c, result.Error)
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"beaconUrl": fmt.Sprintf("http://%s/api/beep/%s", c.Request.Host, publicTrackingNumber)})
 }
