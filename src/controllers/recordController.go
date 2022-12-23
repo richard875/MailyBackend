@@ -110,9 +110,8 @@ func Generate(c *gin.Context) {
 
 	db := c.MustGet("DB").(*gorm.DB)
 	publicTrackingNumber, _ := shortid.Generate()
-	privateTrackingNumber, _ := shortid.Generate()
 
-	result := db.Create(&models.Tracker{ID: publicTrackingNumber, PrivateTrackingNumber: privateTrackingNumber, UserID: userId})
+	result := db.Create(&models.Tracker{ID: publicTrackingNumber, UserID: userId})
 	if result.Error != nil {
 		utils.HandleError(c, result.Error)
 		return
