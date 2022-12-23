@@ -24,7 +24,7 @@ func GetUserByID(c *gin.Context, uid string) (models.User, error) {
 	return user, nil
 }
 
-func VerifyPassword(password, hashedPassword string) error {
+func verifyPassword(password, hashedPassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }
 
@@ -38,7 +38,7 @@ func LoginCheck(c *gin.Context, inputUser models.User) (string, error) {
 		return "", result.Error
 	}
 
-	err := VerifyPassword(inputUser.Password, storedUser.Password)
+	err := verifyPassword(inputUser.Password, storedUser.Password)
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
 		return "", err
 	}
