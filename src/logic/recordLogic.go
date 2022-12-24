@@ -16,8 +16,16 @@ import (
 )
 
 func LogEmailOpen(c *gin.Context) error {
-	// Setup IP client, load .env and user agent files
 	db := c.MustGet("DB").(*gorm.DB)
+
+	// Check if the tracking number is in the database
+	trackingNumber := c.Param("trackingId")
+	var currentTracker models.Tracker
+	if err := db.First(&currentTracker, "id = ?", trackingNumber).Error; err != nil {
+		return nil
+	}
+
+	// Setup IP client, load .env and user agent files
 	_ = godotenv.Load(".env")
 	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
 	jsonFile, openFileError := os.Open("static/data/user_agents_email_client.json")
@@ -36,7 +44,6 @@ func LogEmailOpen(c *gin.Context) error {
 	}
 
 	// Gather data for tracker
-	trackingNumber := c.Param("trackingId")
 	// ipAddress := c.ClientIP()
 	ipAddress := "118.102.80.22"     // Mock IP data
 	data, _ := ipd.Lookup(ipAddress) // Get IP address data
