@@ -45,7 +45,7 @@ func Generate(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"token": publicTrackingNumber,
 		"url":   fmt.Sprintf("http://%s/api/beep/", c.Request.Host),
-		"usage": "url + token",
+		"usage": "url + token + '.gif'",
 	})
 }
 
