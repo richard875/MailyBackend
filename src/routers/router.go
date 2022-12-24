@@ -15,11 +15,11 @@ func Init(router *gin.Engine) {
 	public.GET("/beep/:trackingId", controllers.Beep)    // Logging
 	public.GET("/ip-test", controllers.IpAddress)        // Dev Test
 	public.GET("/browser-test", controllers.BrowserTest) // Dev Test
+	public.GET("/generate", controllers.Generate)        // Generate tracking number
 
 	// POST
 	public.POST("/register", controllers.Register)                           // Auth
 	public.POST("/login", controllers.Login)                                 // Auth
-	public.POST("/generate", controllers.Generate)                           // Generate tracking number
 	public.POST("/assign-tracking-number", controllers.AssignTrackingNumber) // Assign (post) tracking number
 
 	// Suffix admin
