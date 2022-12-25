@@ -43,5 +43,3 @@ https://ipdata.co/ 1,500 request daliy with more information
 sudo lsof -i :8090
 kill -9 <PID>
 ```
-
-### Test GitHub Webhook
