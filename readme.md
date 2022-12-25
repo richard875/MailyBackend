@@ -43,3 +43,18 @@ https://ipdata.co/ 1,500 request daliy with more information
 sudo lsof -i :8090
 kill -9 <PID>
 ```
+
+### How to use Localtunnel
+
+```azure
+https://theboroer.github.io/localtunnel-www/
+
+If you're the developer...
+You and other visitors will only see this page from a standard web browser once per IP every 7 days.
+
+Webhook, IPN, and other non-browser requests "should" be directly tunnelled to your localhost. If your webhook/ipn provider happens to send requests using a real browser user-agent header, those requests will unfortunately also be blocked / be forced to see this tunnel reminder page. FYI, this page returns a 401 HTTP Status.
+
+Options to bypass this page:
+Set and send a Bypass-Tunnel-Reminder request header (its value can be anything).
+or, Set and send a custom / non-standard browser User-Agent request header.
+```
