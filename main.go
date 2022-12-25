@@ -10,7 +10,9 @@ import (
 	"maily/go-backend/src/routers"
 )
 
-var host string = "localhost"
+var host string = "0.0.0.0"
+
+// var host string = "localhost"
 var port string = "8090"
 
 // @title        Maily API
