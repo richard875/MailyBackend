@@ -93,3 +93,6 @@ tmp/*
 # Keys
 .env
 src/secrets/secrets.go
+
+# Build
+app
