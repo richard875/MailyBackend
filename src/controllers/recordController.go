@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	ipdata "github.com/ipdata/go"
 	"github.com/joho/godotenv"
 	"golang.org/x/exp/slices"
 	"io"
@@ -68,14 +67,14 @@ func AssignTrackingNumber(c *gin.Context) {
 // IpAddress Test code ------------------------------------------------------------
 func IpAddress(c *gin.Context) {
 	_ = godotenv.Load(".env")
-	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
-	data, _ := ipd.Lookup("118.102.80.22")
+	//ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
+	//data, _ := ipd.Lookup("185.107.56.134")
 	//data, _ := ipd.Lookup(c.ClientIP())
 
 	fmt.Println(c.ClientIP())
 	fmt.Println(c.Request.Header.Get("User-Agent"))
 
-	c.IndentedJSON(http.StatusOK, data)
+	c.IndentedJSON(http.StatusOK, "123")
 }
 
 func BrowserTest(c *gin.Context) {
