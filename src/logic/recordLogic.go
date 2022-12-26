@@ -13,13 +13,15 @@ import (
 	"maily/go-backend/src/dtos"
 	"maily/go-backend/src/models"
 	"os"
+	"strings"
 )
 
 func LogEmailOpen(c *gin.Context) error {
 	db := c.MustGet("DB").(*gorm.DB)
 
 	// Check if the tracking number is in the database
-	trackingNumber := c.Param("trackingId")
+	rawTrackingNumber := c.Param("trackingId")
+	trackingNumber := rawTrackingNumber[:strings.Index(rawTrackingNumber, ".")]
 	var currentTracker models.Tracker
 	if err := db.First(&currentTracker, "id = ?", trackingNumber).Error; err != nil {
 		return nil
