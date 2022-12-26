@@ -58,3 +58,10 @@ Options to bypass this page:
 Set and send a Bypass-Tunnel-Reminder request header (its value can be anything).
 or, Set and send a custom / non-standard browser User-Agent request header.
 ```
+
+## Build
+
+```azure
+go clean -cache -r
+go build -a -tags netgo -ldflags \'-s -w\' -o app
+```
