@@ -31,7 +31,8 @@ func Beep(c *gin.Context) {
 		return
 	}
 
-	c.File("static/images/beep.gif")
+	c.File("static/images/1.jpg")
+	//c.File("static/images/beep.gif")
 }
 
 func Generate(c *gin.Context) {
