@@ -69,8 +69,8 @@ func AssignTrackingNumber(c *gin.Context) {
 func IpAddress(c *gin.Context) {
 	_ = godotenv.Load(".env")
 	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
-	data, _ := ipd.Lookup("118.102.80.22")
-	//data, _ := ipd.Lookup(c.ClientIP())
+	//data, _ := ipd.Lookup("118.102.80.22")
+	data, _ := ipd.Lookup(c.ClientIP())
 
 	fmt.Println(c.ClientIP())
 	fmt.Println(c.Request.Header.Get("User-Agent"))
