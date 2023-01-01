@@ -32,7 +32,6 @@ func Beep(c *gin.Context) {
 	}
 
 	c.File("static/images/signature2.png")
-	//c.File("static/images/beep.gif")
 }
 
 func Generate(c *gin.Context) {
