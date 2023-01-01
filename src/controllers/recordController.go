@@ -44,7 +44,7 @@ func Generate(c *gin.Context) {
 	publicTrackingNumber := logic.GeneratePublicTrackingNumber()
 	c.JSON(http.StatusOK, gin.H{
 		"token": publicTrackingNumber,
-		"url":   fmt.Sprintf("http://%s/api/beep/", c.Request.Host),
+		"url":   fmt.Sprintf("https://%s/api/beep/", c.Request.Host),
 		"usage": "url + token + .png",
 	})
 }
