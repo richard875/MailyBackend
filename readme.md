@@ -79,5 +79,3 @@ ngrok http 8080
 ```azure
 lt --port 8090
 ```
-
-## Test
