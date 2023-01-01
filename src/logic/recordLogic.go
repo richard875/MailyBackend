@@ -52,13 +52,14 @@ func LogEmailOpen(c *gin.Context) error {
 	userAgent := c.Request.Header.Get("User-Agent")
 	confidentWithEmailClient := slices.IndexFunc(userAgents, func(agent string) bool { return agent == userAgent }) != -1
 
-	tracker := createTracker(data, trackingNumber, ipAddress, confidentWithEmailClient)
+	// Create tracker record
+	tracker := createTrackerRecord(data, trackingNumber, ipAddress, confidentWithEmailClient)
 	db.Create(&tracker)
 
 	return nil
 }
 
-func createTracker(ipData ipdata.IP, trackingNumber string, ipAddress string, confidentWithEmailClient bool) models.Record {
+func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress string, confidentWithEmailClient bool) models.Record {
 	var tracker models.Record
 
 	tracker.ID = uuid.New()
