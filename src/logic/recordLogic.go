@@ -89,10 +89,24 @@ func GeneratePublicTrackingNumber() string {
 }
 
 func AssignTrackingNumber(c *gin.Context, userId string) error {
+	// Bind request body to TrackingNumber DTO
 	db := c.MustGet("DB").(*gorm.DB)
 	var trackingNumber dtos.TrackingNumber
 	_ = c.ShouldBindJSON(&trackingNumber)
 
-	result := db.Create(&models.Tracker{ID: trackingNumber.TrackingNumber, UserID: userId})
+	// Construct new Tracker model and create in database
+	var tracker models.Tracker
+	tracker.ID = trackingNumber.TrackingNumber
+	tracker.UserID = userId
+	tracker.ComposeAction = trackingNumber.ComposeAction
+	tracker.Subject = trackingNumber.Subject
+	tracker.FromAddress = trackingNumber.FromAddress
+	tracker.ToAddresses = trackingNumber.ToAddresses
+	tracker.CcAddresses = trackingNumber.CcAddresses
+	tracker.BccAddresses = trackingNumber.BccAddresses
+	tracker.ReplyToAddresses = trackingNumber.ReplyToAddresses
+	tracker.InternalMessageID = trackingNumber.InternalMessageID
+
+	result := db.Create(&tracker)
 	return result.Error
 }
