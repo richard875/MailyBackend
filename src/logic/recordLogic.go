@@ -30,20 +30,7 @@ func LogEmailOpen(c *gin.Context) error {
 	// Setup IP client, load .env and user agent files
 	_ = godotenv.Load(".env")
 	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
-	jsonFile, openFileError := os.Open("static/data/user_agents_email_client.json")
-	if openFileError != nil {
-		return openFileError
-	}
-	var userAgents []string // List of browser user agents
-	byteValue, _ := io.ReadAll(jsonFile)
-	jsonUnmarshalError := json.Unmarshal(byteValue, &userAgents)
-	if jsonUnmarshalError != nil {
-		return jsonUnmarshalError
-	}
-	closeFileError := jsonFile.Close()
-	if closeFileError != nil {
-		return closeFileError
-	}
+	userAgents := openJsonFile() // List of browser user agents
 
 	// Gather data for tracker
 	// ipAddress := c.ClientIP()
@@ -81,6 +68,16 @@ func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress stri
 	tracker.ConfidentWithEmailClient = confidentWithEmailClient
 
 	return tracker
+}
+
+func openJsonFile() []string {
+	jsonFile, _ := os.Open("static/data/user_agents_email_client.json")
+	var userAgents []string // List of browser user agents
+	byteValue, _ := io.ReadAll(jsonFile)
+	json.Unmarshal(byteValue, &userAgents)
+	jsonFile.Close()
+
+	return userAgents
 }
 
 func GeneratePublicTrackingNumber() string {
