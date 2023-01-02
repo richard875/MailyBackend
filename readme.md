@@ -43,6 +43,10 @@ https://ipdata.co/ 1,500 request daliy with more information
 sudo lsof -i :8090
 kill -9 <PID>
 ```
+###### Or
+```azure
+sudo kill -9 $(sudo lsof -t -i:8090)
+```
 
 ### How to use Localtunnel
 
