@@ -33,8 +33,7 @@ func LogEmailOpen(c *gin.Context) error {
 	userAgents := openJsonFile() // List of browser user agents
 
 	// Gather data for tracker
-	// ipAddress := c.ClientIP()
-	ipAddress := "118.102.80.22"     // Mock IP data
+	ipAddress := c.ClientIP()
 	data, _ := ipd.Lookup(ipAddress) // Get IP address data
 	userAgent := c.Request.Header.Get("User-Agent")
 	confidentWithEmailClient := slices.IndexFunc(userAgents, func(agent string) bool { return agent == userAgent }) != -1
