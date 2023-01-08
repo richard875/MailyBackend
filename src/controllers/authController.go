@@ -58,6 +58,8 @@ func Register(c *gin.Context) {
 
 	user := models.User{}
 	user.ID = uuid.New()
+	user.FirstName = input.FirstName
+	user.LastName = input.LastName
 	user.Email = parsedEmail
 	user.Password = logic.HashPassword(input.Password)
 
