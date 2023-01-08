@@ -104,5 +104,10 @@ func AssignTrackingNumber(c *gin.Context, userId string) error {
 	tracker.InternalMessageID = trackingNumber.InternalMessageID
 
 	result := db.Create(&tracker)
+
+	// Update User
+	var user models.User
+	db.First(&user, "id = ?", userId)
+	db.Model(&user).Update("EmailsSent", user.EmailsSent+1)
 	return result.Error
 }

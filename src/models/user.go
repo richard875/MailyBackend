@@ -13,4 +13,5 @@ type User struct {
 	Email         string    `gorm:"size:255;not null;unique" json:"email"`
 	Password      string    `gorm:"size:255;not null" json:"password"`
 	EmailVerified bool      `gorm:"default:true" json:"emailVerified"`
+	EmailsSent    int       `gorm:"type:int;not null;default:0" json:"emailsSent"`
 }
