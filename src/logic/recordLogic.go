@@ -48,6 +48,16 @@ func LogEmailOpen(c *gin.Context) error {
 	return nil
 }
 
+func openJsonFile() []string {
+	jsonFile, _ := os.Open("static/data/user_agents_email_client.json")
+	var userAgents []string // List of browser user agents
+	byteValue, _ := io.ReadAll(jsonFile)
+	json.Unmarshal(byteValue, &userAgents)
+	jsonFile.Close()
+
+	return userAgents
+}
+
 func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress string, confidentWithEmailClient bool) models.Record {
 	var tracker models.Record
 
@@ -67,16 +77,6 @@ func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress stri
 	tracker.ConfidentWithEmailClient = confidentWithEmailClient
 
 	return tracker
-}
-
-func openJsonFile() []string {
-	jsonFile, _ := os.Open("static/data/user_agents_email_client.json")
-	var userAgents []string // List of browser user agents
-	byteValue, _ := io.ReadAll(jsonFile)
-	json.Unmarshal(byteValue, &userAgents)
-	jsonFile.Close()
-
-	return userAgents
 }
 
 func GeneratePublicTrackingNumber() string {
