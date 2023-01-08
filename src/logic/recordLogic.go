@@ -45,6 +45,11 @@ func LogEmailOpen(c *gin.Context) error {
 	// Update tracker
 	db.Model(&currentTracker).Update("TimesOpened", currentTracker.TimesOpened+1)
 
+	// Update user total clicks
+	var user models.User
+	db.First(&user, "id = ?", currentTracker.UserID)
+	db.Model(&user).Update("TotalClicks", user.TotalClicks+1)
+
 	return nil
 }
 
