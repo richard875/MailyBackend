@@ -132,3 +132,16 @@ func GetUserTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
 	result.Find(&trackers)
 	return trackers, result.Error
 }
+
+func SearchTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
+	db := c.MustGet("DB").(*gorm.DB)
+	searchQuery := c.Param("searchQuery")
+
+	var trackers []models.Tracker
+	err := db.Where("MATCH(id, subject, from_address, to_addresses, cc_addresses, bcc_addresses, reply_to_addresses, internal_message_id) AGAINST (?) AND user_id = ?", searchQuery, userId).Find(&trackers).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return trackers, nil
+}
