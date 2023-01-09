@@ -3,8 +3,11 @@ package database
 import (
 	"fmt"
 	"github.com/joho/godotenv"
+	"log"
 	"maily/go-backend/src/models"
+	"maily/go-backend/src/scheduler"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -36,6 +39,16 @@ func Connect() gin.HandlerFunc {
 		return nil
 	}
 
+	// Run the createFulltextIndex function every 24 hours
+	ticker := time.NewTicker(time.Hour * 24)
+	go func() {
+		for range ticker.C {
+			log.Println("Running create fulltext index")
+			scheduler.FulltextIndex(DB)
+		}
+	}()
+
+	// Continue and Return
 	return func(c *gin.Context) {
 		c.Set("DB", DB)
 		c.Next()
