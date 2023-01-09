@@ -121,7 +121,7 @@ func GetUserTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
 	db := c.MustGet("DB").(*gorm.DB)
 
 	var trackers []models.Tracker
-	result := db.Find(&trackers, "user_id = ?", userId)
+	result := db.Order("updated_at desc").Find(&trackers, "user_id = ?", userId)
 
 	return trackers, result.Error
 }
