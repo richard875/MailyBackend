@@ -11,6 +11,7 @@ import (
 	"gorm.io/gorm"
 	"io"
 	"maily/go-backend/src/dtos"
+	"maily/go-backend/src/enums"
 	"maily/go-backend/src/models"
 	"os"
 	"strings"
@@ -119,9 +120,15 @@ func AssignTrackingNumber(c *gin.Context, userId string) error {
 
 func GetUserTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
 	db := c.MustGet("DB").(*gorm.DB)
+	indexEmail := c.Param("indexEmail")
 
 	var trackers []models.Tracker
-	result := db.Order("updated_at desc").Find(&trackers, "user_id = ?", userId)
-
+	result := db.Where("user_id = ?", userId).Order("updated_at desc")
+	if indexEmail == string(enums.Opened) {
+		result = result.Where("times_opened > ?", 0)
+	} else if indexEmail == string(enums.Unopened) {
+		result = result.Where("times_opened = ?", 0)
+	}
+	result.Find(&trackers)
 	return trackers, result.Error
 }
