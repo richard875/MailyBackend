@@ -138,7 +138,7 @@ func SearchTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
 	searchQuery := c.Param("searchQuery")
 
 	var trackers []models.Tracker
-	err := db.Where("MATCH(id, subject, from_address, to_addresses, cc_addresses, bcc_addresses, reply_to_addresses, internal_message_id) AGAINST (?) AND user_id = ?", searchQuery, userId).Find(&trackers).Error
+	err := db.Order("updated_at desc").Where("MATCH(id, subject, from_address, to_addresses, cc_addresses, bcc_addresses, reply_to_addresses, internal_message_id) AGAINST (?) AND user_id = ?", searchQuery, userId).Find(&trackers).Error
 	if err != nil {
 		return nil, err
 	}
