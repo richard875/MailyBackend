@@ -11,10 +11,11 @@ $ alias air='/Users/{user}/go/bin/air'
 $ air
 ```
 
-### TODO
+### Roadmap
 
 ```azure
-Links clicked
+- Links clicks tracking
+- Push notifications on macOS
 ```
 
 ### Setup
