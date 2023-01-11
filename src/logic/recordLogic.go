@@ -2,6 +2,7 @@ package logic
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	ipdata "github.com/ipdata/go"
@@ -144,4 +145,23 @@ func SearchTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
 	}
 
 	return trackers, nil
+}
+
+func GetTrackerClicks(c *gin.Context) ([]models.Record, error) {
+	db := c.MustGet("DB").(*gorm.DB)
+	trackingNumber := c.Param("trackingNumber")
+	emailViewSort := c.Param("emailViewSort")
+
+	sortDirection := "desc"
+	if emailViewSort == string(enums.OldestToLatest) {
+		sortDirection = "asc"
+	}
+
+	var records []models.Record
+	err := db.Order(fmt.Sprintf("created_at %s", sortDirection)).Where("public_tracking_number = ?", trackingNumber).Find(&records).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return records, nil
 }

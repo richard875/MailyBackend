@@ -97,6 +97,22 @@ func SearchTrackers(c *gin.Context) {
 	c.JSON(http.StatusOK, trackers)
 }
 
+func TrackerClicks(c *gin.Context) {
+	_, tokenError := token.ExtractUserID(c)
+	if tokenError != nil {
+		utils.HandleError(c, tokenError)
+		return
+	}
+
+	clicks, err := logic.GetTrackerClicks(c)
+	if err != nil {
+		utils.HandleError(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, clicks)
+}
+
 // IpAddress Test code ------------------------------------------------------------
 func IpAddress(c *gin.Context) {
 	_ = godotenv.Load(".env")
