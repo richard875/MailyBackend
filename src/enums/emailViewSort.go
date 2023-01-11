@@ -3,6 +3,6 @@ package enums
 type EmailViewSort string
 
 const (
-	LatestToOldest EmailViewSort = "Latest to Oldest"
-	OldestToLatest EmailViewSort = "Oldest to Latest"
+	LatestToOldest EmailViewSort = "LATEST_TO_OLDEST"
+	OldestToLatest EmailViewSort = "OLDEST_TO_LATEST"
 )
