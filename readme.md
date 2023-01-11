@@ -16,6 +16,7 @@ $ air
 ```azure
 - Links clicks tracking
 - Push notifications on macOS
+- Add IP whitelist
 ```
 
 ### Setup
