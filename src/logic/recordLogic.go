@@ -73,6 +73,7 @@ func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress stri
 	tracker.IpAddress = ipAddress
 	tracker.IpCity = ipData.City
 	tracker.IpCountry = ipData.CountryName
+	tracker.EmojiFlag = ipData.EmojiFlag
 	tracker.IsEU = ipData.IsEU
 	tracker.IsTor = ipData.Threat.IsTOR
 	tracker.IsProxy = ipData.Threat.IsProxy
@@ -81,6 +82,8 @@ func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress stri
 	tracker.IsKnownAbuser = ipData.Threat.IsKnownAbuser
 	tracker.IsThreat = ipData.Threat.IsThreat
 	tracker.IsBogon = ipData.Threat.IsBogon
+	tracker.Latitude = ipData.Latitude
+	tracker.Longitude = ipData.Longitude
 	tracker.ConfidentWithEmailClient = confidentWithEmailClient
 
 	return tracker
