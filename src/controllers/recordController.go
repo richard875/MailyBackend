@@ -120,10 +120,11 @@ func IpAddress(c *gin.Context) {
 	//data, _ := ipd.Lookup("118.102.80.22")
 	data, _ := ipd.Lookup(c.ClientIP())
 
+	userAgent := c.Request.Header.Get("User-Agent")
 	fmt.Println(c.ClientIP())
-	fmt.Println(c.Request.Header.Get("User-Agent"))
+	fmt.Println(userAgent)
 
-	c.IndentedJSON(http.StatusOK, data)
+	c.IndentedJSON(http.StatusOK, gin.H{"ip-data": data, "request-header": c.Request.Header})
 }
 
 func BrowserTest(c *gin.Context) {
