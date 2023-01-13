@@ -19,6 +19,7 @@ func Init(router *gin.Engine) {
 	public.GET("/tracker-clicks/:trackingNumber/:emailViewSort", controllers.TrackerClicks) // Tracker clicks
 	public.GET("/ip-test", controllers.IpAddress)                                           // Dev Test
 	public.GET("/browser-test", controllers.BrowserTest)                                    // Dev Test
+	public.GET("/user-agent-test", controllers.UserAgentTest)                               // Dev Test
 
 	// POST
 	public.POST("/register", controllers.Register)                           // Auth

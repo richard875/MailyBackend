@@ -148,3 +148,12 @@ func BrowserTest(c *gin.Context) {
 	//}
 	c.IndentedJSON(http.StatusOK, userAgents)
 }
+
+func UserAgentTest(c *gin.Context) {
+	//userAgent := c.Request.Header.Get("User-Agent")
+	userAgent := "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6.1 Safari/605.1.15"
+	fmt.Println(userAgent)
+
+	parsedUserAgent := logic.ParseUserAgent(userAgent)
+	c.IndentedJSON(http.StatusOK, parsedUserAgent)
+}

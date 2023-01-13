@@ -8,12 +8,13 @@ import (
 	ipdata "github.com/ipdata/go"
 	"github.com/joho/godotenv"
 	"github.com/teris-io/shortid"
-	"golang.org/x/exp/slices"
 	"gorm.io/gorm"
-	"io"
+	"io/ioutil"
 	"maily/go-backend/src/dtos"
 	"maily/go-backend/src/enums"
 	"maily/go-backend/src/models"
+	"net/http"
+	"net/url"
 	"os"
 	"strings"
 )
@@ -32,13 +33,12 @@ func LogEmailOpen(c *gin.Context) error {
 	// Setup IP client, load .env and user agent files
 	_ = godotenv.Load(".env")
 	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
-	userAgents := openJsonFile() // List of browser user agents
 
 	// Gather data for tracker
 	ipAddress := c.ClientIP()
 	data, _ := ipd.Lookup(ipAddress) // Get IP address data
-	userAgent := c.Request.Header.Get("User-Agent")
-	confidentWithEmailClient := slices.IndexFunc(userAgents, func(agent string) bool { return agent == userAgent }) != -1
+	userAgentType := ParseUserAgent(c.Request.Header.Get("User-Agent"))
+	confidentWithEmailClient := userAgentType == "Email Client"
 
 	// Create tracker record
 	tracker := createTrackerRecord(data, trackingNumber, ipAddress, confidentWithEmailClient)
@@ -55,14 +55,34 @@ func LogEmailOpen(c *gin.Context) error {
 	return nil
 }
 
-func openJsonFile() []string {
-	jsonFile, _ := os.Open("static/data/user_agents_email_client.json")
-	var userAgents []string // List of browser user agents
-	byteValue, _ := io.ReadAll(jsonFile)
-	json.Unmarshal(byteValue, &userAgents)
-	jsonFile.Close()
+func ParseUserAgent(userAgent string) string {
+	host := "https://user-agents.net/parser"
+	method := "POST"
+	payload := strings.NewReader(fmt.Sprintf("string=%s&action=parse&format=json", url.QueryEscape(userAgent))) // Escape the user agent string
 
-	return userAgents
+	// Create a new HTTP client
+	client := &http.Client{}
+
+	// Create a new request with the POST method, host, and payload
+	req, _ := http.NewRequest(method, host, payload)
+
+	// Add a content-type header to the request
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+	// Send the request and get the response
+	res, _ := client.Do(req)
+
+	// Close the response body when the function exits
+	defer res.Body.Close()
+
+	// Read the response body
+	body, _ := ioutil.ReadAll(res.Body)
+
+	// Unmarshal the JSON data into a map
+	var data map[string]interface{}
+	json.Unmarshal(body, &data)
+
+	return data["browser_type"].(string)
 }
 
 func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress string, confidentWithEmailClient bool) models.Record {
