@@ -124,7 +124,7 @@ func IpAddress(c *gin.Context) {
 	fmt.Println(c.ClientIP())
 	fmt.Println(userAgent)
 
-	c.IndentedJSON(http.StatusOK, data)
+	c.IndentedJSON(http.StatusOK, gin.H{"ip-data": data, "request-header": c.Request.Header})
 }
 
 func BrowserTest(c *gin.Context) {
