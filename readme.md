@@ -15,7 +15,7 @@ $ air
 
 ```azure
 - Links clicks tracking
-- Push notifications on macOS
+- Web client Lit.dev (Sign up, forgot password, verify email, login, dashboard (edit profile), etc.)
 - Add IP whitelist
 ```
 
