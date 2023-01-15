@@ -162,6 +162,15 @@ func GetTrackerClicks(c *gin.Context) ([]models.Record, error) {
 		sortDirection = "asc"
 	}
 
+	// Get tracker clicks database record
+	var currentTracker models.Tracker
+	if err := db.First(&currentTracker, "id = ?", trackingNumber).Error; err != nil {
+		return []models.Record{}, err
+	}
+
+	// Update tracker
+	db.Model(&currentTracker).Update("Updated", false)
+
 	var records []models.Record
 	err := db.Order(fmt.Sprintf("created_at %s", sortDirection)).Where("public_tracking_number = ?", trackingNumber).Find(&records).Error
 	if err != nil {
