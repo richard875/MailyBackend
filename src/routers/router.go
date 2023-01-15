@@ -23,7 +23,7 @@ func Init(router *gin.Engine) {
 	// POST
 	public.POST("/register", controllers.Register)                           // Auth
 	public.POST("/login", controllers.Login)                                 // Auth
-	public.POST("/assign-tracking-number", controllers.AssignTrackingNumber) // Assign (post) tracking number
+	public.POST("/assign-tracking-number", controllers.AssignTrackingNumber) // Create (assign) tracking number
 
 	// Suffix admin
 	protected := router.Group("/api/admin")
