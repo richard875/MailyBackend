@@ -14,6 +14,7 @@ import (
 	"maily/go-backend/src/dtos"
 	"maily/go-backend/src/enums"
 	"maily/go-backend/src/models"
+	mailyWebsocket "maily/go-backend/src/websocket"
 	"os"
 	"strings"
 )
@@ -50,6 +51,9 @@ func LogEmailOpen(c *gin.Context) error {
 	// Update tracker
 	db.Model(&currentTracker).Update("TimesOpened", currentTracker.TimesOpened+1)
 	db.Model(&currentTracker).Update("Updated", true)
+
+	// Send WebSockets message update
+	mailyWebsocket.Websocket.WriteMessage(1, []byte(mailyWebsocket.UpdateSignal))
 
 	// Update user total clicks
 	var user models.User
@@ -173,6 +177,9 @@ func GetTrackerClicks(c *gin.Context) ([]models.Record, error) {
 
 	// Update tracker
 	db.Model(&currentTracker).UpdateColumn("Updated", false)
+
+	// Send WebSockets message update
+	mailyWebsocket.Websocket.WriteMessage(1, []byte(mailyWebsocket.UpdateSignal))
 
 	var records []models.Record
 	err := db.Order(fmt.Sprintf("created_at %s", sortDirection)).Where("public_tracking_number = ?", trackingNumber).Find(&records).Error
