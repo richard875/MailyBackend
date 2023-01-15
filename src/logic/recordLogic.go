@@ -66,27 +66,27 @@ func openJsonFile() []string {
 }
 
 func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress string, confidentWithEmailClient bool) models.Record {
-	var tracker models.Record
+	var record models.Record
 
-	tracker.ID = uuid.New()
-	tracker.PublicTrackingNumber = trackingNumber
-	tracker.IpAddress = ipAddress
-	tracker.IpCity = ipData.City
-	tracker.IpCountry = ipData.CountryName
-	tracker.EmojiFlag = ipData.EmojiFlag
-	tracker.IsEU = ipData.IsEU
-	tracker.IsTor = ipData.Threat.IsTOR
-	tracker.IsProxy = ipData.Threat.IsProxy
-	tracker.IsAnonymous = ipData.Threat.IsAnonymous
-	tracker.IsKnownAttacker = ipData.Threat.IsKnownAttacker
-	tracker.IsKnownAbuser = ipData.Threat.IsKnownAbuser
-	tracker.IsThreat = ipData.Threat.IsThreat
-	tracker.IsBogon = ipData.Threat.IsBogon
-	tracker.Latitude = ipData.Latitude
-	tracker.Longitude = ipData.Longitude
-	tracker.ConfidentWithEmailClient = confidentWithEmailClient
+	record.ID = uuid.New()
+	record.PublicTrackingNumber = trackingNumber
+	record.IpAddress = ipAddress
+	record.IpCity = ipData.City
+	record.IpCountry = ipData.CountryName
+	record.EmojiFlag = ipData.EmojiFlag
+	record.IsEU = ipData.IsEU
+	record.IsTor = ipData.Threat.IsTOR
+	record.IsProxy = ipData.Threat.IsProxy
+	record.IsAnonymous = ipData.Threat.IsAnonymous
+	record.IsKnownAttacker = ipData.Threat.IsKnownAttacker
+	record.IsKnownAbuser = ipData.Threat.IsKnownAbuser
+	record.IsThreat = ipData.Threat.IsThreat
+	record.IsBogon = ipData.Threat.IsBogon
+	record.Latitude = ipData.Latitude
+	record.Longitude = ipData.Longitude
+	record.ConfidentWithEmailClient = confidentWithEmailClient
 
-	return tracker
+	return record
 }
 
 func GeneratePublicTrackingNumber() string {
