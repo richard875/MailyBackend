@@ -120,9 +120,12 @@ func AssignTrackingNumber(c *gin.Context, userId string) error {
 	tracker.BccAddresses = trackingNumber.BccAddresses
 	tracker.ReplyToAddresses = trackingNumber.ReplyToAddresses
 	tracker.InternalMessageID = trackingNumber.InternalMessageID
-	tracker.Updated = true
+	tracker.Updated = true // Set default to true so that the tracker will appear as notification in frontend
 
 	result := db.Create(&tracker)
+
+	// Send WebSockets message update
+	mailyWebsocket.Websocket.WriteMessage(1, []byte(mailyWebsocket.UpdateSignal))
 
 	// Update User
 	var user models.User
@@ -177,9 +180,6 @@ func GetTrackerClicks(c *gin.Context) ([]models.Record, error) {
 
 	// Update tracker
 	db.Model(&currentTracker).UpdateColumn("Updated", false)
-
-	// Send WebSockets message update
-	mailyWebsocket.Websocket.WriteMessage(1, []byte(mailyWebsocket.UpdateSignal))
 
 	var records []models.Record
 	err := db.Order(fmt.Sprintf("created_at %s", sortDirection)).Where("public_tracking_number = ?", trackingNumber).Find(&records).Error
