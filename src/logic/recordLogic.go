@@ -26,7 +26,7 @@ func LogEmailOpen(c *gin.Context) error {
 	trackingNumber := rawTrackingNumber[:strings.Index(rawTrackingNumber, ".")]
 	var currentTracker models.Tracker
 	if err := db.First(&currentTracker, "id = ?", trackingNumber).Error; err != nil {
-		return nil
+		return err
 	}
 
 	// Setup IP client, load .env and user agent files
