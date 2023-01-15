@@ -36,6 +36,9 @@ func LogEmailOpen(c *gin.Context) error {
 
 	// Gather data for tracker
 	ipAddress := c.ClientIP()
+	if ipAddress == "::1" {
+		ipAddress = "99.232.45.12" // Hardcoded IP address for localhost (Whitby, Ontario)
+	}
 	data, _ := ipd.Lookup(ipAddress) // Get IP address data
 	userAgent := c.Request.Header.Get("User-Agent")
 	confidentWithEmailClient := slices.IndexFunc(userAgents, func(agent string) bool { return agent == userAgent }) != -1
