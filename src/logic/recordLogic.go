@@ -46,6 +46,7 @@ func LogEmailOpen(c *gin.Context) error {
 
 	// Update tracker
 	db.Model(&currentTracker).Update("TimesOpened", currentTracker.TimesOpened+1)
+	db.Model(&currentTracker).Update("Updated", true)
 
 	// Update user total clicks
 	var user models.User
@@ -112,6 +113,7 @@ func AssignTrackingNumber(c *gin.Context, userId string) error {
 	tracker.BccAddresses = trackingNumber.BccAddresses
 	tracker.ReplyToAddresses = trackingNumber.ReplyToAddresses
 	tracker.InternalMessageID = trackingNumber.InternalMessageID
+	tracker.Updated = true
 
 	result := db.Create(&tracker)
 
