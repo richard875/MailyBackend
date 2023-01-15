@@ -44,8 +44,8 @@ func LogEmailOpen(c *gin.Context) error {
 	confidentWithEmailClient := slices.IndexFunc(userAgents, func(agent string) bool { return agent == userAgent }) != -1
 
 	// Create tracker record
-	tracker := createTrackerRecord(data, trackingNumber, ipAddress, confidentWithEmailClient)
-	db.Create(&tracker)
+	record := createTrackerRecord(data, trackingNumber, ipAddress, confidentWithEmailClient)
+	db.Create(&record)
 
 	// Update tracker
 	db.Model(&currentTracker).Update("TimesOpened", currentTracker.TimesOpened+1)
