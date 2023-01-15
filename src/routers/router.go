@@ -25,6 +25,9 @@ func Init(router *gin.Engine) {
 	public.POST("/login", controllers.Login)                                 // Auth
 	public.POST("/assign-tracking-number", controllers.AssignTrackingNumber) // Create (assign) tracking number
 
+	// WebSockets
+	public.GET("/ws", controllers.WsHandler)
+
 	// Suffix admin
 	protected := router.Group("/api/admin")
 	protected.Use(middlewares.JwtAuthMiddleware())
