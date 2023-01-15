@@ -17,4 +17,5 @@ type Tracker struct {
 	BccAddresses      string `gorm:"type:varchar(255);not null" json:"bccAddresses"`
 	ReplyToAddresses  string `gorm:"type:varchar(255);not null" json:"replyToAddresses"`
 	InternalMessageID string `gorm:"type:varchar(255);not null" json:"internalMessageID"` // No computational use, just for reference
+	Updated           bool   `gorm:"type:bool;not null;default:true" json:"updated"`
 }
