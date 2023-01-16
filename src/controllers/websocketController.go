@@ -15,7 +15,7 @@ func WsHandler(c *gin.Context) {
 		return
 	}
 
-	// Disconnect after 5 minutes
-	mailyWebsocket.Websocket.SetReadDeadline(time.Now().Add(300 * time.Second))
-	mailyWebsocket.Websocket.SetWriteDeadline(time.Now().Add(300 * time.Second))
+	// Do not disconnect
+	mailyWebsocket.Websocket.SetReadDeadline(time.Time{})
+	mailyWebsocket.Websocket.SetWriteDeadline(time.Time{})
 }
