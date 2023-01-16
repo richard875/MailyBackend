@@ -18,6 +18,14 @@ $ air
 - Web client Lit.dev (Sign up, forgot password, verify email, login, dashboard (edit profile), etc.)
 - Add IP whitelist
 ```
+### Footnote
+    
+```azure
+We use websocket in this project
+Although the number of calls are greater using websocket than periodic polling, the response time is faster
+WS averages around 100µs (microseconds) while polling averages around 10ms (milliseconds)
+That is equivalent to 10000µs, the former is 100x faster
+```
 
 ### Setup
 
