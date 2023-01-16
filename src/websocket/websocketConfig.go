@@ -10,4 +10,4 @@ var Upgrader = websocket.Upgrader{
 
 var UpdateSignal = "update"
 var Websocket *websocket.Conn
-var WsError error
+var Error error

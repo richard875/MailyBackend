@@ -9,9 +9,9 @@ import (
 )
 
 func WsHandler(c *gin.Context) {
-	mailyWebsocket.Websocket, mailyWebsocket.WsError = mailyWebsocket.Upgrader.Upgrade(c.Writer, c.Request, nil)
-	if mailyWebsocket.WsError != nil {
-		fmt.Println(mailyWebsocket.WsError)
+	mailyWebsocket.Websocket, mailyWebsocket.Error = mailyWebsocket.Upgrader.Upgrade(c.Writer, c.Request, nil)
+	if mailyWebsocket.Error != nil {
+		fmt.Println(mailyWebsocket.Error)
 		return
 	}
 
