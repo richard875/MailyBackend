@@ -14,7 +14,7 @@ func Init(router *gin.Engine) {
 	// GET
 	public.GET("/beep/:trackingId", controllers.Beep)                                       // Logging
 	public.GET("/generate", controllers.Generate)                                           // Generate tracking number
-	public.GET("/user-trackers/:indexEmail", controllers.UserTrackers)                      // Get user trackers (emails)
+	public.GET("/user-trackers/:indexEmail/:page", controllers.UserTrackers)                // Get user trackers (emails)
 	public.GET("/search-trackers/:searchQuery", controllers.SearchTrackers)                 // Search trackers (query)
 	public.GET("/tracker-clicks/:trackingNumber/:emailViewSort", controllers.TrackerClicks) // Tracker clicks
 	public.GET("/ip-test", controllers.IpAddress)                                           // Dev Test

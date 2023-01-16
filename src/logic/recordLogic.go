@@ -16,6 +16,7 @@ import (
 	"maily/go-backend/src/models"
 	mailyWebsocket "maily/go-backend/src/websocket"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -137,10 +138,15 @@ func AssignTrackingNumber(c *gin.Context, userId string) error {
 
 func GetUserTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
 	db := c.MustGet("DB").(*gorm.DB)
+	limit := 10
 	indexEmail := c.Param("indexEmail")
+	pageNumber, err := strconv.Atoi(c.Param("page")) // Default to page 1 if not provided
+	if err != nil || pageNumber < 1 {
+		pageNumber = 1
+	}
 
 	var trackers []models.Tracker
-	result := db.Where("user_id = ?", userId).Order("updated_at desc")
+	result := db.Where("user_id = ?", userId).Order("updated_at desc").Limit(limit).Offset((pageNumber - 1) * limit)
 	if indexEmail == string(enums.Opened) {
 		result = result.Where("times_opened > ?", 0)
 	} else if indexEmail == string(enums.Unopened) {
