@@ -8,6 +8,7 @@ import (
 	docs "maily/go-backend/docs"
 	"maily/go-backend/src/database"
 	"maily/go-backend/src/routers"
+	"maily/go-backend/src/scheduler"
 )
 
 var host string = "0.0.0.0"
@@ -24,6 +25,9 @@ var port string = "8090"
 func main() {
 	router := gin.Default()
 	router.Use(database.Connect())
+
+	// Start database indexing scheduler
+	scheduler.Run()
 
 	// Swagger route
 	docs.SwaggerInfo.BasePath = "/api/v1"
