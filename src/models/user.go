@@ -16,5 +16,5 @@ type User struct {
 	TotalClicks   int       `gorm:"default:0" json:"totalClicks"`
 	EmailsSent    int       `gorm:"default:0" json:"emailsSent"`
 	TelegramToken string    `gorm:"size:255" json:"telegramToken"`
-	TelegramID    int       `gorm:"default:null" json:"telegramID"`
+	TelegramID    int64     `gorm:"default:null" json:"telegramID"`
 }
