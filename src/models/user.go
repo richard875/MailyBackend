@@ -15,4 +15,6 @@ type User struct {
 	EmailVerified bool      `gorm:"default:true" json:"emailVerified"`
 	TotalClicks   int       `gorm:"default:0" json:"totalClicks"`
 	EmailsSent    int       `gorm:"default:0" json:"emailsSent"`
+	TelegramToken string    `gorm:"size:255" json:"telegramToken"`
+	TelegramID    int       `gorm:"default:null" json:"telegramID"`
 }
