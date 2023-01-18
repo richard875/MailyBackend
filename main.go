@@ -9,6 +9,7 @@ import (
 	"maily/go-backend/src/database"
 	"maily/go-backend/src/routers"
 	"maily/go-backend/src/scheduler"
+	"maily/go-backend/src/telegramBot"
 )
 
 var host string = "0.0.0.0"
@@ -28,6 +29,9 @@ func main() {
 
 	// Start database indexing scheduler
 	scheduler.Run()
+
+	// Start Telegram notification bot
+	telegramBot.StartTelegramBot()
 
 	// Swagger route
 	docs.SwaggerInfo.BasePath = "/api/v1"
