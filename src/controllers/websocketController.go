@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"time"
 
@@ -11,7 +10,6 @@ import (
 func WsHandler(c *gin.Context) {
 	mailyWebsocket.Websocket, mailyWebsocket.Error = mailyWebsocket.Upgrader.Upgrade(c.Writer, c.Request, nil)
 	if mailyWebsocket.Error != nil {
-		fmt.Println(mailyWebsocket.Error)
 		return
 	}
 

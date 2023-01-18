@@ -143,8 +143,5 @@ func BrowserTest(c *gin.Context) {
 	})
 	fmt.Println(idx)
 
-	//for _, s := range userAgents {
-	//	fmt.Println(s)
-	//}
 	c.IndentedJSON(http.StatusOK, userAgents)
 }
