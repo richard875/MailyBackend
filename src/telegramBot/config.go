@@ -22,9 +22,9 @@ var userNotFoundMessage = `
 `
 
 var setupCompletedMessage = `
-✅ Setup completed!
+✅ Setup completed! You will now receive notifications through Telegram when your email is clicked.
 
-📌 If you wish to stop receiving notifications, reply with /stop.
+📌 If you wish to stop receiving notifications, just reply with /stop.
 
 💜 Thanks again for choosing Maily!
 `
