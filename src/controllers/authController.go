@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/teris-io/shortid"
 	"maily/go-backend/src/dtos"
 	"maily/go-backend/src/utils/token"
 	"net/http"
@@ -56,12 +57,17 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	// Generate User Telegram Token
+	telegramToken, _ := shortid.Generate()
+
+	// Create User
 	user := models.User{}
 	user.ID = uuid.New()
 	user.FirstName = input.FirstName
 	user.LastName = input.LastName
 	user.Email = parsedEmail
 	user.Password = logic.HashPassword(input.Password)
+	user.TelegramToken = telegramToken
 
 	_, saveError := logic.SaveUser(c, user)
 	if saveError != nil {
