@@ -12,9 +12,10 @@ import (
 )
 
 func StartTelegramBot() {
-	// Load .env file
+	// Load .env file and load Telegram bot
 	_ = godotenv.Load(".env")
-	bot, err := TelegramBotAPI.NewBotAPI(os.Getenv("TELEGRAM_BOT_TOKEN"))
+	var err error
+	bot, err = TelegramBotAPI.NewBotAPI(os.Getenv("TELEGRAM_BOT_TOKEN"))
 	if err != nil {
 		return
 	}
@@ -24,7 +25,7 @@ func StartTelegramBot() {
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
 	// Config
-	registerCommands(bot) // Register commands
+	registerCommands() // Register commands
 	u := TelegramBotAPI.NewUpdate(0)
 	u.Timeout = 60
 
@@ -44,18 +45,18 @@ func StartTelegramBot() {
 				}
 			} else if update.Message != nil {
 				if update.Message.ReplyToMessage != nil { // If received token message from the reply
-					handleTokenMessage(bot, update)
+					handleTokenMessage(update)
 				} else if update.Message.Command() == startCommand { // If received /start command
-					handleStartCommand(bot, update)
+					handleStartCommand(update)
 				} else if update.Message.Command() == stopCommand { // If received /stop command
-					handleStopCommand(bot, update)
+					handleStopCommand(update)
 				}
 			}
 		}
 	}()
 }
 
-func registerCommands(bot *TelegramBotAPI.BotAPI) *TelegramBotAPI.APIResponse {
+func registerCommands() *TelegramBotAPI.APIResponse {
 	// Register commands
 	botStartCommand := TelegramBotAPI.BotCommand{Command: startCommand, Description: startCommandDescription}
 	botStopCommand := TelegramBotAPI.BotCommand{Command: stopCommand, Description: stopCommandDescription}
@@ -66,7 +67,7 @@ func registerCommands(bot *TelegramBotAPI.BotAPI) *TelegramBotAPI.APIResponse {
 	return request
 }
 
-func handleTokenMessage(bot *TelegramBotAPI.BotAPI, update TelegramBotAPI.Update) {
+func handleTokenMessage(update TelegramBotAPI.Update) {
 	// User token
 	token := strings.TrimSpace(update.Message.Text)
 
@@ -94,16 +95,23 @@ func handleTokenMessage(bot *TelegramBotAPI.BotAPI, update TelegramBotAPI.Update
 			// Handle other errors
 		}
 	} else {
+		notLinked := user.TelegramID == 0
+
 		// User exists, update their telegram_chat_id
 		db.Model(&user).Update("telegram_id", update.Message.Chat.ID)
 
 		// Send message to user
-		msg := TelegramBotAPI.NewMessage(update.Message.Chat.ID, setupCompletedMessage)
-		bot.Send(msg)
+		if notLinked {
+			msg := TelegramBotAPI.NewMessage(update.Message.Chat.ID, initialSetupCompletedMessage)
+			bot.Send(msg)
+		} else {
+			msg := TelegramBotAPI.NewMessage(update.Message.Chat.ID, relinkSetupCompletedMessage)
+			bot.Send(msg)
+		}
 	}
 }
 
-func handleStartCommand(bot *TelegramBotAPI.BotAPI, update TelegramBotAPI.Update) {
+func handleStartCommand(update TelegramBotAPI.Update) {
 	// Get Database connection
 	var db = database.DB
 
@@ -135,7 +143,7 @@ func handleStartCommand(bot *TelegramBotAPI.BotAPI, update TelegramBotAPI.Update
 
 }
 
-func handleStopCommand(bot *TelegramBotAPI.BotAPI, update TelegramBotAPI.Update) {
+func handleStopCommand(update TelegramBotAPI.Update) {
 	// Get Database connection
 	var db = database.DB
 
