@@ -1,5 +1,10 @@
 package telegramBot
 
+import TelegramBotAPI "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+
+// Bot object
+var bot *TelegramBotAPI.BotAPI
+
 // Message
 var welcomeMessage = `
 ✉️ Welcome to Maily Telegram bot!
@@ -15,6 +20,7 @@ After logging in, click on the settings icon in the top right corner of the page
 
 🇦🇺 Make in Australia with 💜
 `
+
 var userNotFoundMessage = `
 🚫 User not found, please try again.
 
@@ -22,13 +28,16 @@ var userNotFoundMessage = `
 `
 
 var setupCompletedMessage = `
-✅ Setup completed! You will now receive notifications through Telegram when your email is clicked.
 
 📌 If you wish to stop receiving notifications, just reply with /stop.
+
+🔑 Please do not share your Maily Telegram token with anyone else.
 
 💜 Thanks again for choosing Maily!
 `
 
+var initialSetupCompletedMessage = "✅ Setup completed! You will now receive notifications through Telegram when your email is clicked." + setupCompletedMessage
+var relinkSetupCompletedMessage = "✅ Relink completed! You will now receive notifications on this device when your email is clicked." + setupCompletedMessage
 var alreadySetupMessage = "You have already setup the Maily Telegram bot, if you wish to stop receiving notifications or to relink your device, reply with /stop."
 var enterTokenMessage = "Please enter your Maily Telegram token:"
 var enterTokenButton1Message = "🔑 Enter Maily Telegram token"
