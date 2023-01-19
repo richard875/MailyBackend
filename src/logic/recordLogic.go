@@ -14,6 +14,7 @@ import (
 	"maily/go-backend/src/dtos"
 	"maily/go-backend/src/enums"
 	"maily/go-backend/src/models"
+	"maily/go-backend/src/telegramBot"
 	mailyWebsocket "maily/go-backend/src/websocket"
 	"os"
 	"strconv"
@@ -61,6 +62,11 @@ func LogEmailOpen(c *gin.Context) error {
 	var user models.User
 	db.First(&user, "id = ?", currentTracker.UserID)
 	db.Model(&user).Update("TotalClicks", user.TotalClicks+1)
+
+	// Send Telegram message if user has linked their Telegram ID
+	if user.TelegramID != 0 {
+		telegramBot.NotifyUser(user.TelegramID, currentTracker.Subject, record)
+	}
 
 	return nil
 }
