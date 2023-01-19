@@ -6,6 +6,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"html"
+	"maily/go-backend/src/database"
 	"maily/go-backend/src/models"
 	"maily/go-backend/src/utils/token"
 	"net/mail"
@@ -13,7 +14,7 @@ import (
 )
 
 func GetUserByID(c *gin.Context, uid string) (models.User, error) {
-	db := c.MustGet("DB").(*gorm.DB)
+	db := database.DB
 
 	var user models.User
 	if err := db.First(&user, "id = ?", uid).Error; err != nil {
