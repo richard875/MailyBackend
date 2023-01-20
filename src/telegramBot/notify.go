@@ -10,21 +10,11 @@ import (
 func NotifyUser(userID int64, emailSubject string, record models.Record) {
 	timeZone, _ := time.LoadLocation("America/New_York")
 	// Create message
-	var location string
+	location := record.IpCountry
 	if record.IpCity != "" {
 		location = fmt.Sprintf("%s, %s", record.IpCity, record.IpCountry)
-	} else {
-		location = record.IpCountry
 	}
-	message := fmt.Sprintf(`
-✉️ Someone opened your email in %s %s!
-
-*Subject:* %s
-*IP Address:* %s
-*Opened At:* %s Eastern Time
-
-🌐 You can view more details in your *Maily dashboard*.
-`, location, record.EmojiFlag, emailSubject, record.IpAddress, record.CreatedAt.In(timeZone).Format("02 Jan 2006, 15:04:05 PM"))
+	message := fmt.Sprintf(notifyMessage, location, record.EmojiFlag, emailSubject, record.IpAddress, record.CreatedAt.In(timeZone).Format("02 Jan 2006, 15:04:05 PM"))
 
 	msg := TelegramBotAPI.NewMessage(userID, message)
 	msg.ParseMode = "Markdown"

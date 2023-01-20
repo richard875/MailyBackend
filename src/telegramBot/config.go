@@ -6,6 +6,17 @@ import TelegramBotAPI "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 var bot *TelegramBotAPI.BotAPI
 
 // Message
+// Parameters: location, record.EmojiFlag, emailSubject, record.IpAddress, record.CreatedAt
+var notifyMessage = `
+✉️ Someone opened your email in %s %s
+
+*Subject:* %s
+*IP Address:* %s
+*Opened At:* %s Eastern Time
+
+🌐 You can view more details in your *Maily dashboard*.
+`
+
 var welcomeMessage = `
 ✉️ Welcome to Maily Telegram bot!
  
