@@ -113,6 +113,19 @@ func TrackerClicks(c *gin.Context) {
 	c.JSON(http.StatusOK, clicks)
 }
 
+func TelegramRegenerate(c *gin.Context) {
+	userId, tokenError := token.ExtractUserID(c)
+	if tokenError != nil {
+		utils.HandleError(c, tokenError)
+		return
+	}
+
+	newTelegramToken := logic.ReGenerateTelegramToken(userId)
+	c.JSON(http.StatusOK, gin.H{
+		"newTelegramToken": newTelegramToken,
+	})
+}
+
 // IpAddress Test code ------------------------------------------------------------
 func IpAddress(c *gin.Context) {
 	_ = godotenv.Load(".env")

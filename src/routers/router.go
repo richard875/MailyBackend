@@ -17,6 +17,7 @@ func Init(router *gin.Engine) {
 	public.GET("/user-trackers/:indexEmail/:page", controllers.UserTrackers)                      // Get user trackers (emails)
 	public.GET("/search-trackers/:searchQuery/:page", controllers.SearchTrackers)                 // Search trackers (query)
 	public.GET("/tracker-clicks/:trackingNumber/:emailViewSort/:page", controllers.TrackerClicks) // Tracker clicks
+	public.GET("/telegram-regenerate", controllers.TelegramRegenerate)                            // Regenerate Telegram Token
 	public.GET("/ip-test", controllers.IpAddress)                                                 // Dev Test
 	public.GET("/browser-test", controllers.BrowserTest)                                          // Dev Test
 

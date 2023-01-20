@@ -11,6 +11,7 @@ import (
 	"golang.org/x/exp/slices"
 	"gorm.io/gorm"
 	"io"
+	"maily/go-backend/src/database"
 	"maily/go-backend/src/dtos"
 	"maily/go-backend/src/enums"
 	"maily/go-backend/src/models"
@@ -211,4 +212,16 @@ func GetTrackerClicks(c *gin.Context) ([]models.Record, error) {
 	}
 
 	return records, nil
+}
+
+func ReGenerateTelegramToken(userId string) string {
+	db := database.DB
+	newTelegramToken, _ := shortid.Generate()
+
+	// Update user Telegram token
+	var user models.User
+	db.First(&user, "id = ?", userId)
+	db.Model(&user).Update("TelegramToken", newTelegramToken)
+
+	return newTelegramToken
 }
