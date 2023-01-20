@@ -182,8 +182,13 @@ func SearchTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
 
 func GetTrackerClicks(c *gin.Context) ([]models.Record, error) {
 	db := c.MustGet("DB").(*gorm.DB)
+	limit := 10
 	trackingNumber := c.Param("trackingNumber")
 	emailViewSort := c.Param("emailViewSort")
+	pageNumber, convertErr := strconv.Atoi(c.Param("page")) // Default to page 1 if not provided
+	if convertErr != nil || pageNumber < 1 {
+		pageNumber = 1
+	}
 
 	sortDirection := "desc"
 	if emailViewSort == string(enums.OldestToLatest) {
@@ -200,7 +205,7 @@ func GetTrackerClicks(c *gin.Context) ([]models.Record, error) {
 	db.Model(&currentTracker).UpdateColumn("Updated", false)
 
 	var records []models.Record
-	err := db.Order(fmt.Sprintf("created_at %s", sortDirection)).Where("public_tracking_number = ?", trackingNumber).Find(&records).Error
+	err := db.Order(fmt.Sprintf("created_at %s", sortDirection)).Where("public_tracking_number = ?", trackingNumber).Limit(limit).Offset((pageNumber - 1) * limit).Find(&records).Error
 	if err != nil {
 		return nil, err
 	}
