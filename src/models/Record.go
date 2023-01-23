@@ -15,7 +15,9 @@ type Record struct {
 	EmojiFlag                string    `gorm:"size:255" json:"emojiFlag"`
 	IsEU                     bool      `gorm:"default:false" json:"isEu"`
 	IsTor                    bool      `gorm:"default:false" json:"isTor"`
+	IsIcloudRelay            bool      `gorm:"default:false" json:"isIcloudRelay"`
 	IsProxy                  bool      `gorm:"default:false" json:"isProxy"`
+	IsDataCenter             bool      `gorm:"default:false" json:"isDataCenter"`
 	IsAnonymous              bool      `gorm:"default:false" json:"isAnonymous"`
 	IsKnownAttacker          bool      `gorm:"default:false" json:"isKnownAttacker"`
 	IsKnownAbuser            bool      `gorm:"default:false" json:"isKnownAbuser"`

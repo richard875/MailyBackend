@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	ipdata "github.com/ipdata/go"
-	"github.com/joho/godotenv"
 	"github.com/teris-io/shortid"
 	"golang.org/x/exp/slices"
 	"gorm.io/gorm"
@@ -14,8 +12,10 @@ import (
 	"maily/go-backend/src/database"
 	"maily/go-backend/src/dtos"
 	"maily/go-backend/src/enums"
+	"maily/go-backend/src/functions"
 	"maily/go-backend/src/global"
 	"maily/go-backend/src/models"
+	"maily/go-backend/src/structure"
 	"maily/go-backend/src/telegramBot"
 	mailyWebsocket "maily/go-backend/src/websocket"
 	"os"
@@ -34,9 +34,7 @@ func LogEmailOpen(c *gin.Context) error {
 		return err
 	}
 
-	// Setup IP client, load .env and user agent files
-	_ = godotenv.Load(".env")
-	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
+	// Load user agent files
 	userAgents := openJsonFile() // List of browser user agents
 
 	// Gather data for tracker
@@ -44,7 +42,7 @@ func LogEmailOpen(c *gin.Context) error {
 	if ipAddress == "::1" {
 		ipAddress = "99.232.45.12" // Hardcoded IP address for localhost (Whitby, Ontario)
 	}
-	data, _ := ipd.Lookup(ipAddress) // Get IP address data
+	data := functions.GetIpData(ipAddress) // Get IP address data
 
 	// Check if user agent is in the list of email clients (Subject to change)
 	userAgent := c.Request.Header.Get("User-Agent")
@@ -92,7 +90,7 @@ func openJsonFile() []string {
 	return userAgents
 }
 
-func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress string, confidentWithEmailClient bool, headersString string) models.Record {
+func createTrackerRecord(ipData structure.IpLocationInfo, trackingNumber string, ipAddress string, confidentWithEmailClient bool, headersString string) models.Record {
 	var record models.Record
 
 	record.ID = uuid.New()
@@ -102,8 +100,10 @@ func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress stri
 	record.IpCountry = ipData.CountryName
 	record.EmojiFlag = ipData.EmojiFlag
 	record.IsEU = ipData.IsEU
-	record.IsTor = ipData.Threat.IsTOR
+	record.IsTor = ipData.Threat.IsTor
+	record.IsIcloudRelay = ipData.Threat.IsICloudRelay
 	record.IsProxy = ipData.Threat.IsProxy
+	record.IsDataCenter = ipData.Threat.IsDatacenter
 	record.IsAnonymous = ipData.Threat.IsAnonymous
 	record.IsKnownAttacker = ipData.Threat.IsKnownAttacker
 	record.IsKnownAbuser = ipData.Threat.IsKnownAbuser
