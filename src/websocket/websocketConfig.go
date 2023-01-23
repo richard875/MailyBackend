@@ -9,6 +9,5 @@ var Upgrader = websocket.Upgrader{
 }
 
 var UpdateSignal = "update"
-var Delimiter = "##__##"
 var Websocket *websocket.Conn
 var Error error

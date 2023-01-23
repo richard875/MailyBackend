@@ -57,7 +57,7 @@ func LogEmailOpen(c *gin.Context) error {
 
 	// Send WebSockets message update
 	websocketStringList := []string{mailyWebsocket.UpdateSignal, currentTracker.Subject, record.IpCity, record.IpCountry, record.EmojiFlag}
-	mailyWebsocket.Websocket.WriteMessage(1, []byte(strings.Join(websocketStringList, mailyWebsocket.Delimiter)))
+	mailyWebsocket.Websocket.WriteMessage(1, []byte(strings.Join(websocketStringList, global.Delimiter)))
 
 	// Update user total clicks
 	var user models.User
