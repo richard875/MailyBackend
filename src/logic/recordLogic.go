@@ -14,6 +14,7 @@ import (
 	"maily/go-backend/src/database"
 	"maily/go-backend/src/dtos"
 	"maily/go-backend/src/enums"
+	"maily/go-backend/src/global"
 	"maily/go-backend/src/models"
 	"maily/go-backend/src/telegramBot"
 	mailyWebsocket "maily/go-backend/src/websocket"
@@ -44,11 +45,20 @@ func LogEmailOpen(c *gin.Context) error {
 		ipAddress = "99.232.45.12" // Hardcoded IP address for localhost (Whitby, Ontario)
 	}
 	data, _ := ipd.Lookup(ipAddress) // Get IP address data
+
+	// Check if user agent is in the list of email clients (Subject to change)
 	userAgent := c.Request.Header.Get("User-Agent")
 	confidentWithEmailClient := slices.IndexFunc(userAgents, func(agent string) bool { return agent == userAgent }) != -1
 
+	// Get and store Header data
+	headers := c.Request.Header
+	headersString := ""
+	for key, value := range headers {
+		headersString += key + global.Delimiter + value[0] + global.Delimiter
+	}
+
 	// Create tracker record
-	record := createTrackerRecord(data, trackingNumber, ipAddress, confidentWithEmailClient)
+	record := createTrackerRecord(data, trackingNumber, ipAddress, confidentWithEmailClient, headersString)
 	db.Create(&record)
 
 	// Update tracker
@@ -82,7 +92,7 @@ func openJsonFile() []string {
 	return userAgents
 }
 
-func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress string, confidentWithEmailClient bool) models.Record {
+func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress string, confidentWithEmailClient bool, headersString string) models.Record {
 	var record models.Record
 
 	record.ID = uuid.New()
@@ -102,6 +112,7 @@ func createTrackerRecord(ipData ipdata.IP, trackingNumber string, ipAddress stri
 	record.Latitude = ipData.Latitude
 	record.Longitude = ipData.Longitude
 	record.ConfidentWithEmailClient = confidentWithEmailClient
+	record.Headers = headersString
 
 	return record
 }

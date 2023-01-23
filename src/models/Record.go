@@ -24,4 +24,5 @@ type Record struct {
 	Latitude                 float64   `gorm:"type:decimal(10,8)" json:"latitude"`
 	Longitude                float64   `gorm:"type:decimal(11,8)" json:"longitude"`
 	ConfidentWithEmailClient bool      `gorm:"default:false" json:"confidentWithEmailClient"`
+	Headers                  string    `gorm:"type:varchar(5000)"  json:"header"`
 }
