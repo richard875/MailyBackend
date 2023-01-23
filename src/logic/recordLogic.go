@@ -65,7 +65,11 @@ func LogEmailOpen(c *gin.Context) error {
 
 	// Send WebSockets message update
 	websocketStringList := []string{mailyWebsocket.UpdateSignal, currentTracker.Subject, record.IpCity, record.IpCountry, record.EmojiFlag}
-	mailyWebsocket.Websocket.WriteMessage(1, []byte(strings.Join(websocketStringList, global.Delimiter)))
+
+	// Send APN message update if websocket is established successfully
+	if mailyWebsocket.Websocket != nil {
+		mailyWebsocket.Websocket.WriteMessage(1, []byte(strings.Join(websocketStringList, global.Delimiter)))
+	}
 
 	// Update user total clicks
 	var user models.User
