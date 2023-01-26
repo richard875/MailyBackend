@@ -2,7 +2,6 @@ package functions
 
 import (
 	"encoding/json"
-	"github.com/joho/godotenv"
 	"maily/go-backend/src/structure"
 	"net/http"
 	"os"
@@ -10,7 +9,7 @@ import (
 
 func GetIpData(ip string) structure.IpLocationInfo {
 	// Setup IP client and load .env
-	_ = godotenv.Load(".env")
+	//_ = godotenv.Load(".env")
 	apiKey := os.Getenv("IP_ADDRESS_API_KEY")
 	url := "https://api.ipdata.co/" + ip + "?api-key=" + apiKey
 

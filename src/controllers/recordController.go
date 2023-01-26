@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	ipdata "github.com/ipdata/go"
-	"github.com/joho/godotenv"
 	"golang.org/x/exp/slices"
 	"io"
 	"maily/go-backend/src/logic"
@@ -128,7 +127,7 @@ func TelegramRegenerate(c *gin.Context) {
 
 // IpAddress Test code ------------------------------------------------------------
 func IpAddress(c *gin.Context) {
-	_ = godotenv.Load(".env")
+	//_ = godotenv.Load(".env")
 	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
 	//data, _ := ipd.Lookup("118.102.80.22")
 	data, _ := ipd.Lookup(c.ClientIP())

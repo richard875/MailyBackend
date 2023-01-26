@@ -2,7 +2,6 @@ package telegramBot
 
 import (
 	TelegramBotAPI "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 	"log"
 	"maily/go-backend/src/database"
@@ -13,7 +12,7 @@ import (
 
 func StartTelegramBot() {
 	// Load .env file and load Telegram bot
-	_ = godotenv.Load(".env")
+	//_ = godotenv.Load(".env")
 	var err error
 	bot, err = TelegramBotAPI.NewBotAPI(os.Getenv("TELEGRAM_BOT_TOKEN"))
 	if err != nil {
