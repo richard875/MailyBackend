@@ -127,7 +127,6 @@ func TelegramRegenerate(c *gin.Context) {
 
 // IpAddress Test code ------------------------------------------------------------
 func IpAddress(c *gin.Context) {
-	//_ = godotenv.Load(".env")
 	ipd, _ := ipdata.NewClient(os.Getenv("IP_ADDRESS_API_KEY"))
 	//data, _ := ipd.Lookup("118.102.80.22")
 	data, _ := ipd.Lookup(c.ClientIP())

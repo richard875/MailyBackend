@@ -8,8 +8,7 @@ import (
 )
 
 func GetIpData(ip string) structure.IpLocationInfo {
-	// Setup IP client and load .env
-	//_ = godotenv.Load(".env")
+	// Setup IP client
 	apiKey := os.Getenv("IP_ADDRESS_API_KEY")
 	url := "https://api.ipdata.co/" + ip + "?api-key=" + apiKey
 

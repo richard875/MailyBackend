@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	swaggerfiles "github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger" // gin-swagger middleware
 	docs "maily/go-backend/docs"
@@ -10,6 +11,7 @@ import (
 	"maily/go-backend/src/routers"
 	"maily/go-backend/src/scheduler"
 	"maily/go-backend/src/telegramBot"
+	"os"
 )
 
 var host string = "0.0.0.0"
@@ -24,6 +26,14 @@ var port string = "8090"
 // @host      localhost:8090
 // @BasePath  /api/v1
 func main() {
+	// Load .env file if in local environment
+	if os.Getenv("RUN_ENV") == "development" {
+		err := godotenv.Load(".env")
+		if err != nil {
+			panic("Error loading .env file")
+		}
+	}
+
 	router := gin.Default()
 	router.Use(database.Connect())
 

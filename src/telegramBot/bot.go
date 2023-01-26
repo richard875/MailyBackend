@@ -11,8 +11,7 @@ import (
 )
 
 func StartTelegramBot() {
-	// Load .env file and load Telegram bot
-	//_ = godotenv.Load(".env")
+	// Load Telegram bot
 	var err error
 	bot, err = TelegramBotAPI.NewBotAPI(os.Getenv("TELEGRAM_BOT_TOKEN"))
 	if err != nil {
