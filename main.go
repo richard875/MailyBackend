@@ -11,6 +11,7 @@ import (
 	"maily/go-backend/src/routers"
 	"maily/go-backend/src/scheduler"
 	"maily/go-backend/src/telegramBot"
+	_ "maily/go-backend/src/tzdata"
 	"os"
 )
 
