@@ -27,6 +27,8 @@ WS averages around 100µs (microseconds) while polling averages around 10ms (mil
 That is equivalent to 10000µs, the former is 100x faster
 ```
 
+
+
 ### Setup
 
 ```azure
