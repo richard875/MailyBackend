@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
 	"html"
 	"maily/go-backend/src/database"
 	"maily/go-backend/src/models"
@@ -29,8 +28,8 @@ func verifyPassword(password, hashedPassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }
 
-func LoginCheck(c *gin.Context, inputUser models.User) (string, error) {
-	db := c.MustGet("DB").(*gorm.DB)
+func LoginCheck(inputUser models.User) (string, error) {
+	db := database.DB
 
 	storedUser := models.User{}
 	result := db.First(&storedUser, "email = ?", inputUser.Email)
@@ -52,8 +51,8 @@ func LoginCheck(c *gin.Context, inputUser models.User) (string, error) {
 	return generateToken, nil
 }
 
-func SaveUser(c *gin.Context, user models.User) (models.User, error) {
-	db := c.MustGet("DB").(*gorm.DB)
+func SaveUser(user models.User) (models.User, error) {
+	db := database.DB
 	result := db.Create(&user)
 
 	return user, result.Error

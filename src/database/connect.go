@@ -30,8 +30,5 @@ func Connect() gin.HandlerFunc {
 	}
 
 	// Continue and Return
-	return func(c *gin.Context) {
-		c.Set("DB", DB)
-		c.Next()
-	}
+	return func(c *gin.Context) { c.Next() }
 }

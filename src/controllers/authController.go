@@ -37,7 +37,7 @@ func Login(c *gin.Context) {
 	user.Email = input.Email
 	user.Password = input.Password
 
-	loginCheck, err := logic.LoginCheck(c, user)
+	loginCheck, err := logic.LoginCheck(user)
 	if err != nil {
 		utils.HandleError(c, err)
 		return
@@ -69,7 +69,7 @@ func Register(c *gin.Context) {
 	user.Password = logic.HashPassword(input.Password)
 	user.TelegramToken = telegramToken
 
-	_, saveError := logic.SaveUser(c, user)
+	_, saveError := logic.SaveUser(user)
 	if saveError != nil {
 		utils.HandleError(c, saveError)
 		return

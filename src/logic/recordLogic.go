@@ -7,7 +7,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/teris-io/shortid"
 	"golang.org/x/exp/slices"
-	"gorm.io/gorm"
 	"io"
 	"maily/go-backend/src/database"
 	"maily/go-backend/src/dtos"
@@ -24,7 +23,7 @@ import (
 )
 
 func LogEmailOpen(c *gin.Context) error {
-	db := c.MustGet("DB").(*gorm.DB)
+	db := database.DB
 
 	// Check if the tracking number is in the database
 	rawTrackingNumber := c.Param("trackingId")
@@ -128,7 +127,7 @@ func GeneratePublicTrackingNumber() string {
 
 func AssignTrackingNumber(c *gin.Context, userId string) error {
 	// Bind request body to TrackingNumber DTO
-	db := c.MustGet("DB").(*gorm.DB)
+	db := database.DB
 	var trackingNumber dtos.TrackingNumber
 	_ = c.ShouldBindJSON(&trackingNumber)
 
@@ -159,7 +158,7 @@ func AssignTrackingNumber(c *gin.Context, userId string) error {
 }
 
 func GetUserTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
-	db := c.MustGet("DB").(*gorm.DB)
+	db := database.DB
 	limit := 10
 	indexEmail := c.Param("indexEmail")
 	pageNumber, err := strconv.Atoi(c.Param("page")) // Default to page 1 if not provided
@@ -179,7 +178,7 @@ func GetUserTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
 }
 
 func SearchTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
-	db := c.MustGet("DB").(*gorm.DB)
+	db := database.DB
 	limit := 10
 	searchQuery := c.Param("searchQuery")
 	pageNumber, conversionError := strconv.Atoi(c.Param("page")) // Default to page 1 if not provided
@@ -197,7 +196,7 @@ func SearchTrackers(c *gin.Context, userId string) ([]models.Tracker, error) {
 }
 
 func GetTrackerClicks(c *gin.Context) ([]models.Record, error) {
-	db := c.MustGet("DB").(*gorm.DB)
+	db := database.DB
 	limit := 10
 	trackingNumber := c.Param("trackingNumber")
 	emailViewSort := c.Param("emailViewSort")
