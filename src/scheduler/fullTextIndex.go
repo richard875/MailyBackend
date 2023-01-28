@@ -2,7 +2,6 @@ package scheduler
 
 import (
 	"gorm.io/gorm"
-	"log"
 	"strings"
 )
 
@@ -13,6 +12,6 @@ func FulltextIndex(db *gorm.DB) {
 
 	err := db.Exec(query).Error
 	if err != nil {
-		log.Println(err)
+		//log.Println(err)
 	}
 }

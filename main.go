@@ -47,7 +47,7 @@ func main() {
 	// Swagger route
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	println("Swagger route:", router.BasePath()+"/swagger")
+	//fmt.Println("Swagger route:", router.BasePath()+"/swagger")
 
 	routers.Init(router)
 	router.Run(fmt.Sprintf("%s:%s", host, port))

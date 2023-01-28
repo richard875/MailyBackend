@@ -3,7 +3,6 @@ package telegramBot
 import (
 	TelegramBotAPI "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"gorm.io/gorm"
-	"log"
 	"maily/go-backend/src/database"
 	"maily/go-backend/src/models"
 	"os"
@@ -20,7 +19,7 @@ func StartTelegramBot() {
 
 	// Development
 	bot.Debug = false
-	log.Printf("Authorized on account %s", bot.Self.UserName)
+	//log.Printf("Authorized on account %s", bot.Self.UserName)
 
 	// Config
 	registerCommands() // Register commands
